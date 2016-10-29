@@ -1,0 +1,95 @@
+ 1.
+
+ create view v1 as	
+ 	select p.nombre, p.Especialidad from profesor p, profesorgrupo x, grupo g
+ 	where g.idGrupo = x.grupos_idGrupo
+ 	and x.profesor_idProfesor = p.idProfesor
+ 	and g.Nombre like "%GRUPO118%";
+
+ 2.
+ 
+ create view v2 as
+ 	select calificacion, count(*) from alumnoevaluacion group by calificacion;	
+
+ 3.
+ create view v3 as
+ 	select a.nombre, a.appaterno, a.apmaterno, a.email from alumno a, alumnogrupo x1, grupo g, profesorgrupo x2, profesor p
+ 	where a.boleta = x1.alumno_boleta
+ 	and x1.grupos_idGrupo = g.idGrupo
+ 	and g.idGrupo = x2.grupos_idGrupo
+ 	and x2.profesor_idProfesor = p.idProfesor
+ 	and p.nombre like "%Jhonat%";	
+
+ 4.
+ create view v4 as
+ 	select p.nombre as profesor, p.apPaterno, p.apMaterno, g.nombre from profesor p, grupo g, materia m, profesorgrupo x
+ 	where g.idGrupo = x.grupos_idGrupo
+ 	and x.profesor_idProfesor = p.idProfesor
+ 	and x. materia_idMateria = m.idMateria
+ 	and m.nombre like "%Conta%";
+
+ 5.
+ create view v5 as
+ 	select p.nombre as profesor, p.apPaterno, p.apMaterno, m.nombre from profesor p, profesorgrupo x, materia m
+ 	where p.idProfesor = x.profesor_idProfesor
+ 	and x.materia_idMateria = m.idMateria
+ 	and (p.apPaterno like "%Cente%" or p.apMaterno like "%Cente%");		
+
+ 6.
+ 
+ delimiter #
+	create procedure p6()
+	begin
+		upda
+	end #	
+
+7
+
+
+8
+delimiter #
+	create procedure p8(in a varchar(50))
+	begin
+			select p.nombre from profesor p, materia m, profesorgrupo x
+			where m.idMateria = x.materia_idMateria
+			and x.profesor_idprofesor = p.idProfesor
+			and m.nombre like concat ("%", a, "%");
+	end #
+
+9
+
+delimiter #
+	create procedure p9(in a int(11))
+	begin
+			select a.nombre, a.apPaterno, a.apMaterno, x.calificacion, e.titulo from alumno a, alumnoevaluacion x, evaluacion e
+			where a.boleta = x.alumno_boleta
+			and x.evaluaciones_idEvaluacion = e.idEvaluacion
+			and a.boleta = a;
+	end #
+
+
+10
+
+delimiter #
+	create procedure p10(in a varchar(50))
+	begin
+			select g.nombre from grupo g, alumno a, alumnogrupo x
+			where a.boleta = x.alumno_boleta
+			and x.grupos_idgrupo = g.idGrupo
+			and a.apPaterno like concat ("%", a, "%");
+	end #
+
+11
+
+delimiter #
+	create procedure p11(in a varchar(10))
+	begin
+			select m.nombre, p.nombre from materia m, grupo g, profesor p, profesorgrupo x
+			where m.idMateria = x.materia_idMateria
+			and x.profesor_idProfesor = p.idProfesor
+			and x.grupos_idgrupo = g.idGrupo
+			and g.nombre like concat ("%", a, "%");
+	end #
+
+
+call p7
